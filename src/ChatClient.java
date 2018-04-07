@@ -5,9 +5,7 @@
  */
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -26,7 +24,7 @@ public class ChatClient{
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
-	public static void main(String[] args) throws UnknownHostException, IOException{
+	public static void main(String[] args) {
 
 		try (Socket socket = new Socket("codebank.xyz", 38001)){
 			System.out.println("Connected to: " + socket.getInetAddress() + ":" + socket.getPort());
@@ -50,7 +48,13 @@ public class ChatClient{
 					pw.println(input);
 				}
 			}
+			pw.close();	//Noting that these closes are not reached, and the code must either be refactored to change the while(true)
+			br.close();	//loop or remove these closes.
 			kb.close();
+		} catch (UnknownHostException ue) {
+			System.out.println("Host error! " + ue.getMessage());
+		} catch (IOException e) {
+			System.out.println("Error! " + e.getMessage());
 		}
 	}
 
